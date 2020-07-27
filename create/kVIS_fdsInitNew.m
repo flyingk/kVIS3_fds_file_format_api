@@ -117,4 +117,6 @@ fds.BoardSupportPackage = 'generic';
 
 fds.timeOffset = 0;
 
+fds.pathOpenedFrom = [];
+
 
