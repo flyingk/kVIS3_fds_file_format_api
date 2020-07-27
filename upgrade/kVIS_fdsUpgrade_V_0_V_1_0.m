@@ -77,7 +77,24 @@ function [ fds ] = kVIS_fdsUpgrade_V_0_V_1_0(fdsOld)
 
     % TODO: fds.eventList, fds.eventTypes
 
-    % TODO: fds.aircraftData
+    % fds.aircraftData
+    if isfield(fdsOld, 'ACconfig')
+        
+        fds.aircraftData.sRef_UNIT_m2   = fdsOld.ACconfig.sref;
+        fds.aircraftData.cRef_UNIT_m    = fdsOld.ACconfig.cref;
+        fds.aircraftData.bRef_UNIT_m    = fdsOld.ACconfig.bref;
+        fds.aircraftData.mass_UNIT_kg   = fdsOld.ACconfig.mass;
+        fds.aircraftData.ixx_UNIT_kgm2  = fdsOld.ACconfig.ixx;
+        fds.aircraftData.iyy_UNIT_kgm2  = fdsOld.ACconfig.iyy;
+        fds.aircraftData.izz_UNIT_kgm2  = fdsOld.ACconfig.izz;
+        fds.aircraftData.ixz_UNIT_kgm2  = fdsOld.ACconfig.ixz;
+        fds.aircraftData.xCG_UNIT_m     = fdsOld.ACconfig.xcg;
+        fds.aircraftData.yCG_UNIT_m     = fdsOld.ACconfig.ycg;
+        fds.aircraftData.zCG_UNIT_m     = fdsOld.ACconfig.zcg;
+        
+        fds.testInfo.gravity_UNIT_m_d_s2 = fdsOld.ACconfig.gravity;
+        
+    end
 
     % TODO: fds.testInfo
 

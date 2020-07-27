@@ -85,16 +85,16 @@ if isfield(fds.aircraftData, 'sRef')
     
     fds.aircraftData = aircraftData;
     
-    testInfo                    = fds.testInfo;
-    testInfo.airfieldElevation_UNIT_m = fds.testInfo.airfieldElevation;
-    testInfo.windDir_UNIT_deg = fds.testInfo.windDir;
-    testInfo.windSpeed_UNIT_m_d_s = fds.testInfo.windSpeed;
-    testInfo.ambientPressure_UNIT_Pa = fds.testInfo.ambientPressure;
+    testInfo                           = fds.testInfo;
+    testInfo.airfieldElevation_UNIT_m  = fds.testInfo.airfieldElevation;
+    testInfo.windDir_UNIT_deg          = fds.testInfo.windDir;
+    testInfo.windSpeed_UNIT_m_d_s      = fds.testInfo.windSpeed;
+    testInfo.ambientPressure_UNIT_Pa   = fds.testInfo.ambientPressure;
     testInfo.ambientTemperature_UNIT_C = fds.testInfo.ambientTemperature;
-    testInfo.gravity_UNIT_m_d_s2 = fds.testInfo.gravity;
-    testInfo.magRef_N_UNIT_Gauss = fds.testInfo.magRef_N;
-    testInfo.magRef_E_UNIT_Gauss = fds.testInfo.magRef_E;
-    testInfo.magRef_D_UNIT_Gauss = fds.testInfo.magRef_D;
+    testInfo.gravity_UNIT_m_d_s2       = fds.testInfo.gravity;
+    testInfo.magRef_N_UNIT_Gauss       = fds.testInfo.magRef_N;
+    testInfo.magRef_E_UNIT_Gauss       = fds.testInfo.magRef_E;
+    testInfo.magRef_D_UNIT_Gauss       = fds.testInfo.magRef_D;
     
     testInfo = rmfield(testInfo, {
         'airfieldElevation'
