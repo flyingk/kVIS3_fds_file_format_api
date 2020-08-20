@@ -31,12 +31,12 @@ function [ fds ] = kVIS_fdsUpgrade_V_0_V_1_0(fdsOld)
 
     fds.fdata = cell(size(fds.fdata, 1), size(fdsOld.fdata, 2));
     fds.fdata(fdataRows.groupLabel, :)      = fdsOld.fdata(fdataRowsOld.Label, :);
-    fds.fdata(fdataRows.varNames, :)        = cellfun(@strip, fdsOld.fdata(fdataRowsOld.Vars, :), 'UniformOutput', false);
+    fds.fdata(fdataRows.varNames, :)        = fdsOld.fdata(fdataRowsOld.Vars, :);
     fds.fdata(fdataRows.varUnits, :)        = fdsOld.fdata(fdataRowsOld.Units, :);
     
     % fill 'frames' fields with empty arrays of correct dimensions
-    fds.fdata(fdataRows.varFrames, :)       = cellfun(@(x) regexprep(x,'\w*',''), fdsOld.fdata(fdataRowsOld.Vars, :), 'UniformOutput', false);
-    
+    fds.fdata(fdataRows.varFrames, :)       = fdsOld.fdata(fdataRowsOld.Vars, :);
+        
     fds.fdata(fdataRows.varNamesDisp, :)    = fds.fdata(fdataRows.varNames, :);
     fds.fdata(fdataRows.data, :)            = fdsOld.fdata(fdataRowsOld.Data, :); % TODO
     fds.fdata(fdataRows.treeParent, :)      = fdsOld.fdata(fdataRowsOld.Parent, :);
@@ -46,20 +46,25 @@ function [ fds ] = kVIS_fdsUpgrade_V_0_V_1_0(fdsOld)
     % add time vector to all groups
     for k = 1 : size(fds.fdata, 2)
         
-        varNames = fds.fdata{fdataRows.varNames, k};
-        
         % only check data leafs 
-        if size(varNames,2) > 0
+        if size(fds.fdata{fdataRows.varNames, k}, 2) > 0
             
-            timeChannelIdx = find(strcmpi(varNames, 'time'), 1, 'first');
+            % strip whitespace from names
+            fds.fdata{fdataRows.varNames, k} = strip(fds.fdata{fdataRows.varNames, k});
+            
+            % empty frames fields
+            fds.fdata{fdataRows.varFrames, k}       = cellfun(@(x) '', fds.fdata{fdataRows.varFrames, k}, 'UniformOutput', false);
+            
+            
+            timeChannelIdx = find(strcmpi(fds.fdata{fdataRows.varNames, k}, 'Time'), 1, 'first');
             
             if isempty(timeChannelIdx)
                 % add time channel
-                fds.fdata{fdataRows.varNames    , k} = ['time'    , fds.fdata{fdataRows.varNames    , k}];
-                fds.fdata{fdataRows.varUnits    , k} = ['s'       , fds.fdata{fdataRows.varUnits    , k}];
-                fds.fdata{fdataRows.varFrames   , k} = [''        , fds.fdata{fdataRows.varFrames   , k}];
-                fds.fdata{fdataRows.varNamesDisp, k} = ['t'       , fds.fdata{fdataRows.varNamesDisp, k}];
-                fds.fdata{fdataRows.data        , k} = [timeGlobal, fds.fdata{fdataRows.data        , k}];
+                fds.fdata{fdataRows.varNames    , k} = ['Time'    ; fds.fdata{fdataRows.varNames    , k}];
+                fds.fdata{fdataRows.varUnits    , k} = ['sec'     ; fds.fdata{fdataRows.varUnits    , k}];
+                fds.fdata{fdataRows.varFrames   , k} = [''        ; fds.fdata{fdataRows.varFrames   , k}];
+                fds.fdata{fdataRows.varNamesDisp, k} = ['Time'    ; fds.fdata{fdataRows.varNamesDisp, k}];
+                fds.fdata{fdataRows.data        , k} = [timeGlobal; fds.fdata{fdataRows.data        , k}];
             else
                 % move time channel to idx 1
                 idx = [1, timeChannelIdx];
@@ -92,7 +97,9 @@ function [ fds ] = kVIS_fdsUpgrade_V_0_V_1_0(fdsOld)
         fds.aircraftData.yCG_UNIT_m     = fdsOld.ACconfig.ycg;
         fds.aircraftData.zCG_UNIT_m     = fdsOld.ACconfig.zcg;
         
-        fds.testInfo.gravity_UNIT_m_d_s2 = fdsOld.ACconfig.gravity;
+        if isfield(fdsOld.ACconfig, 'gravity')
+            fds.testInfo.gravity_UNIT_m_d_s2 = fdsOld.ACconfig.gravity;
+        end
         
     end
 
