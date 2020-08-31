@@ -27,14 +27,42 @@ handles=guidata(hObject);
 % selected data set
 %
 [ fds, fdsName ] = kVIS_getCurrentFds(hObject);
-%
-% data group
-%
-var_idx = handles.uiTabData.groupTree.SelectedNodes.Value;
-%
-% data channel
-%
-channel_idx = handles.uiTabData.channelListbox.Value;
+sigName = handles.uiTabData.channelListbox.String{handles.uiTabData.channelListbox.Value};
+
+% Check if channel came from a search request or data group request
+if regexp(sigName, '\d*/\d*/') == 1
+    sep = strfind(sigName, '/');
+    %
+    % data group
+    %
+    var_idx = str2double(sigName(1:sep(1)-1));
+    %
+    % data channel
+    %
+    channel_idx = str2double(sigName((sep(1)+1):(sep(2)-1)));
+    
+    
+    % open tree at corresponding location
+    str = strsplit(sigName,'/');
+    
+    % open tree group
+    kVIS_fdsUpdateSelectionInfo(hObject, str2double(str{1}))
+    
+    fds = kVIS_getCurrentFds(hObject);
+    
+    kVIS_groupTreeUpdate(hObject, fds, 'search')
+    
+    
+else
+    %
+    % data group
+    %
+    var_idx = handles.uiTabData.groupTree.SelectedNodes.Value;
+    %
+    % data channel
+    %
+    channel_idx = handles.uiTabData.channelListbox.Value;
+end
 %
 % signal data as vector
 %
@@ -52,4 +80,5 @@ signalMeta.timeVec   = fds.fdata{fds.fdataRows.data, var_idx}(:, 1);
 signalMeta.offSet    = fds.timeOffset;
 signalMeta.sampleRate= fds.fdataAttributes.sampleRates(var_idx);
 end
+
 
