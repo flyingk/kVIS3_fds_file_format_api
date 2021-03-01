@@ -47,17 +47,21 @@ if node <= 0
     % first entry - new root level node
     if size(fds.fdata, 2) == 1  && isempty(fds.fdata{fds.fdataRows.groupLabel, 1})
         
+        fds.fdata{fds.fdataRows.groupID, 1}    = kVIS_fdsUniqueGroupID();
         fds.fdata{fds.fdataRows.groupLabel, 1} = name;
         fds.fdata{fds.fdataRows.treeParent, 1} = 0;
         fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
+        fds.fdata{fds.fdataRows.uniqueParent, 1} = 0;
         
     else % add fdata column and populate
         
-        fds.fdata = [fds.fdata cell(10,1)];
+        fds.fdata = [fds.fdata cell(size(fds.fdata,1),1)];
         
+        fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID();
         fds.fdata{fds.fdataRows.groupLabel, end} = name;
         fds.fdata{fds.fdataRows.treeParent, end} = parent;
         fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
+        fds.fdata{fds.fdataRows.uniqueParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
     end
     
     % number of this node

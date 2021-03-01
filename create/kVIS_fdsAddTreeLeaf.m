@@ -44,6 +44,7 @@ function [ fds, node ] = kVIS_fdsAddTreeLeaf(fds, label, vars, varsDisp, units, 
  % first entry - new root level node
 if size(fds.fdata, 2) == 1 && isempty(fds.fdata{fds.fdataRows.groupLabel, 1}) % first entry - new root level node
     
+    fds.fdata{fds.fdataRows.groupID, 1}      = kVIS_fdsUniqueGroupID();
     fds.fdata{fds.fdataRows.groupLabel, 1}   = label;
     fds.fdata{fds.fdataRows.varNames, 1}     = vars;
     fds.fdata{fds.fdataRows.varUnits, 1}     = units;
@@ -52,11 +53,13 @@ if size(fds.fdata, 2) == 1 && isempty(fds.fdata{fds.fdataRows.groupLabel, 1}) % 
     fds.fdata{fds.fdataRows.data, 1}         = data;
     fds.fdata{fds.fdataRows.treeParent, 1}   = 0;
     fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
+    fds.fdata{fds.fdataRows.uniqueParent, 1} = 0;
     
 else % add fdata column and populate
     
-    fds.fdata = [fds.fdata cell(10,1)];
+    fds.fdata = [fds.fdata cell(size(fds.fdata,1),1)];
     
+    fds.fdata{fds.fdataRows.groupID, end}      = kVIS_fdsUniqueGroupID();
     fds.fdata{fds.fdataRows.groupLabel, end}   = label;
     fds.fdata{fds.fdataRows.varNames, end}     = vars;
     fds.fdata{fds.fdataRows.varUnits, end}     = units;
@@ -65,6 +68,7 @@ else % add fdata column and populate
     fds.fdata{fds.fdataRows.data, end}         = data;
     fds.fdata{fds.fdataRows.treeParent, end}   = parent;
     fds.fdata{fds.fdataRows.treeGroupSelected, end} = selected;
+    fds.fdata{fds.fdataRows.uniqueParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
     
 end
 

@@ -1,6 +1,6 @@
 %
 %> @file kVIS_fdsInitNew.m
-%> @brief Create a new FDS structure as per specification V 1.0 for BSP 'generic'
+%> @brief Create a new FDS structure as per specification V 2.0 for BSP 'generic'
 %
 %
 % kVIS3 Data Visualisation
@@ -24,7 +24,7 @@
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 %
-%> @brief Create a new FDS structure as per specification V 1.0 for BSP 'generic'
+%> @brief Create a new FDS structure as per specification V 2.0 for BSP 'generic'
 %>
 %>
 %> @retval New fds structure
@@ -33,12 +33,12 @@ function fds = kVIS_fdsInitNew()
 
 fds = struct;
 
-fds.fdsVersion = 1.0;
+fds.fdsVersion = 2.0;
 
 fds.created = datestr(now);
 
 
-fds.fdata = cell(10,1); % number of rows according to fdataRows
+fds.fdata = cell(12,1); % number of rows according to fdataRows
 
 fds.fdataRows = struct( ...
     'groupLabel'        , 1, ... group name
@@ -51,7 +51,8 @@ fds.fdataRows = struct( ...
     'treeParent'        , 8, ... group parent in tree
     'treeGroupExpanded' , 9, ... group node expanded
     'treeGroupSelected' ,10, ... group node selected
-    'groupID'           ,11  ... unique group ID
+    'groupID'           ,11, ... unique group ID
+    'uniqueParent'      ,12  ... group parent in tree (based on unique ID)
 );
 
 fds.fdataAttributes = struct( ...
