@@ -50,7 +50,8 @@ fds.fdataRows = struct( ...
     'data'              , 7, ... channel data - group sample time vector as channel 1 (all channels in group have common time vector)
     'treeParent'        , 8, ... group parent in tree
     'treeGroupExpanded' , 9, ... group node expanded
-    'treeGroupSelected' ,10  ... group node selected
+    'treeGroupSelected' ,10, ... group node selected
+    'groupID'           ,11  ... unique group ID
 );
 
 fds.fdataAttributes = struct( ...
