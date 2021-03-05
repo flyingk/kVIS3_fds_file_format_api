@@ -41,18 +41,17 @@ fds.created = datestr(now);
 fds.fdata = cell(12,1); % number of rows according to fdataRows
 
 fds.fdataRows = struct( ...
-    'groupLabel'        , 1, ... group name
-    'varNames'          , 2, ... list of channel names
-    'varUnits'          , 3, ... list of channel units
-    'varFrames'         , 4, ... reference frame of channel
-    'varNamesDisp'      , 5, ... display name of variable - the BSP may provide this separate field and it shall take precedence over the 'vars' field entry for generating channel names.
-    'dataSource'        , 6, ... encode data source (m=measured, c=calculated, s=simulated, tbd.)
-    'data'              , 7, ... channel data - group sample time vector as channel 1 (all channels in group have common time vector)
-    'treeParent'        , 8, ... group parent in tree
-    'treeGroupExpanded' , 9, ... group node expanded
-    'treeGroupSelected' ,10, ... group node selected
-    'groupID'           ,11, ... unique group ID
-    'uniqueParent'      ,12  ... group parent in tree (based on unique ID)
+    'groupID'           , 1, ... unique group ID (unique, random string)
+    'groupLabel'        , 2, ... group name
+    'varNames'          , 3, ... list of channel names
+    'varUnits'          , 4, ... list of channel units
+    'varFrames'         , 5, ... reference frame of channel
+    'varNamesDisp'      , 6, ... display name of variable - the BSP may provide this separate field and it shall take precedence over the 'vars' field entry for generating channel names.
+    'dataSource'        , 7, ... encode data source (m=measured, c=calculated, s=simulated, tbd.)
+    'data'              , 8, ... channel data - group sample time vector as channel 1 (all channels in group have common time vector)
+    'treeParent'        , 9, ... parent tree item (based on unique group ID)
+    'treeGroupExpanded' ,10, ... group node expanded
+    'treeGroupSelected' ,11  ... group node selected
 );
 
 fds.fdataAttributes = struct( ...
@@ -101,7 +100,7 @@ fds.testInfo = struct( ...
    'magRef_D_UNIT_Gauss',      ''  ... magnetic reference vector D component [Gauss]
 );
 
-ftiSensorProperties = struct( ...
+SensorProperties = struct( ...
    'identifier',        '', ... Sensor ID
    'type',              '', ... Sensor ID
    'description',       '', ... Sensor ID
@@ -110,9 +109,9 @@ ftiSensorProperties = struct( ...
    'zCoord',            ''  ... Sensor ID
 );
 
-fds.ftiSensors = struct( ...
-    'airdata',    ftiSensorProperties, ...
-    'gpsAntenna', ftiSensorProperties  ...
+fds.Sensors = struct( ...
+    'airdata',    SensorProperties, ...
+    'gpsAntenna', SensorProperties  ...
 );
 
 fds.BoardSupportPackage = 'generic';

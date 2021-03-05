@@ -53,7 +53,6 @@ if size(fds.fdata, 2) == 1 && isempty(fds.fdata{fds.fdataRows.groupLabel, 1}) % 
     fds.fdata{fds.fdataRows.data, 1}         = data;
     fds.fdata{fds.fdataRows.treeParent, 1}   = 0;
     fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
-    fds.fdata{fds.fdataRows.uniqueParent, 1} = 0;
     
 else % add fdata column and populate
     
@@ -66,9 +65,8 @@ else % add fdata column and populate
     fds.fdata{fds.fdataRows.varFrames, end}    = frame;
     fds.fdata{fds.fdataRows.varNamesDisp, end} = varsDisp;
     fds.fdata{fds.fdataRows.data, end}         = data;
-    fds.fdata{fds.fdataRows.treeParent, end}   = parent;
+    fds.fdata{fds.fdataRows.treeParent, end}   = fds.fdata{fds.fdataRows.groupID, parent};
     fds.fdata{fds.fdataRows.treeGroupSelected, end} = selected;
-    fds.fdata{fds.fdataRows.uniqueParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
     
 end
 

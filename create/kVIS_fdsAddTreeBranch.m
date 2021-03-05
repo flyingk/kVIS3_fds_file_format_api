@@ -51,7 +51,6 @@ if node <= 0
         fds.fdata{fds.fdataRows.groupLabel, 1} = name;
         fds.fdata{fds.fdataRows.treeParent, 1} = 0;
         fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
-        fds.fdata{fds.fdataRows.uniqueParent, 1} = 0;
         
     else % add fdata column and populate
         
@@ -59,9 +58,8 @@ if node <= 0
         
         fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID();
         fds.fdata{fds.fdataRows.groupLabel, end} = name;
-        fds.fdata{fds.fdataRows.treeParent, end} = parent;
+        fds.fdata{fds.fdataRows.treeParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
         fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
-        fds.fdata{fds.fdataRows.uniqueParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
     end
     
     % number of this node
