@@ -46,8 +46,13 @@ function kVIS_fdsValidate(fds, varargin)
             error('Trying to validate a legacy FDS, for which no specification exists.');
         end
         kVIS_fdsValidate(fds, fds.fdsVersion);
+        
     case {1.0, 'current'}
         kVIS_fdsValidate_V_1_0(fds);
+        
+    case 2.0
+        disp('TODO: validate fds 2.0')
+        
     otherwise
         error('Invalid version specified');
     end

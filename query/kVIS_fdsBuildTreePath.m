@@ -38,18 +38,16 @@ treePath = '';
 while ischar(groupID)
     
     % find fds cell column that corresponds to ID
-    idx = strcmp(fds.fdata(fds.fdataRows.groupID,:), groupID);
-    
-    grp = find(idx==true);
+    [groupIdx] = kVIS_fdsGetGroupIDColumnIndex(fds, groupID);
     
     % ID of parent group
-    groupID = fds.fdata{fds.fdataRows.treeParent, grp};
+    groupID = fds.fdata{fds.fdataRows.treeParent, groupIdx};
     
     % Assemble path
     if isempty(treePath)
-        treePath = [fds.fdata{fds.fdataRows.groupLabel, grp}];
+        treePath = [fds.fdata{fds.fdataRows.groupLabel, groupIdx}];
     else
-        treePath = [fds.fdata{fds.fdataRows.groupLabel, grp} '/' treePath];
+        treePath = [fds.fdata{fds.fdataRows.groupLabel, groupIdx} '/' treePath];
     end
     
 end

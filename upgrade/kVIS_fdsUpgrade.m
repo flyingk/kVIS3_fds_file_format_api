@@ -21,7 +21,7 @@
 function [ fds ] = kVIS_fdsUpgrade(fds)
 % Upgrade FDS to current storage format.
 
-currentVersion = 1.0;
+currentVersion = 2.0;
 
 assert(isstruct(fds), 'FDS must be a struct');
 
@@ -32,6 +32,9 @@ end
 
 while fds.fdsVersion <= currentVersion
     switch fds.fdsVersion
+        case 2.0
+            disp('kVIS_fdsUpgrade.m TODO: update to 2.0')
+            break;
         case 1.0
             fds = UpgradeInfoStructs(fds);
             break;
