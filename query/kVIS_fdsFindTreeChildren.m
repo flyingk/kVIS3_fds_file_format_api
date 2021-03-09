@@ -29,15 +29,20 @@
 %> @param fds data structure
 %> @param Group ID to use
 %> @param Optional results array (used only for recursion, leave empty during fcn call)
+%> @param Optional results array (used only for recursion, leave empty during fcn call)
 %>
 %> @retval Cell array with all children
+%> @retval isLeaf flag (for recursions
+%> @retval Array with all children column indices
 %
-function [Child, isLeaf] = kVIS_fdsFindTreeChildren(fds, groupID, varargin)
+function [Child, isLeaf, ChildIndex] = kVIS_fdsFindTreeChildren(fds, groupID, varargin)
 
 if nargin == 2
     Child = '';
+    ChildIndex = [];
 else
     Child = varargin{1};
+    ChildIndex = varargin{2};
 end
 
 % disp('exec==================================')
@@ -64,19 +69,23 @@ for I = 1:length(childrenIdx)
     
     % need also the next level till we are on leaf level...
     if isLeaf == false
-        [C] = kVIS_fdsFindTreeChildren(fds, ChildID, Child1);
+        [C,~,ChldIndex] = kVIS_fdsFindTreeChildren(fds, ChildID, Child1, childrenIdx(I));
         
         if isempty(Child)
             Child = C;
+            ChildIndex = ChldIndex;
         else
             Child = [Child C];
+            ChildIndex = [ChildIndex ChldIndex];
         end
         
     else
         if isempty(Child)
             Child = Child1;
+            ChildIndex = childrenIdx(I);
         else
             Child = [Child Child1];
+            ChildIndex = [ChildIndex childrenIdx(I)];
         end
     end
 end

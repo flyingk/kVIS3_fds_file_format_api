@@ -36,19 +36,27 @@ function [fds] = kVIS_fdsDeleteTreeItem(fds, groupID)
 % find fds cell column that corresponds to ID
 [groupIdx] = kVIS_fdsGetGroupIDColumnIndex(fds, groupID);
 
-answer = questdlg(['Delete Group ' fds.fdata{fds.fdataRows.groupLabel, groupIdx} ' ?'],'Confirm delete','OK','Cancel','Cancel');
+% find all descendants
+[childs, ~, idx] = kVIS_fdsFindTreeChildren(fds, groupID);
+
+cols = size(fds.fdata,2);
+
+rem = setdiff(1:cols, [groupIdx, idx]);
+
+answer = questdlg(['Delete Group ' fds.fdata{fds.fdataRows.groupLabel, groupIdx} ' and all descendants ?'],...
+    'Confirm delete','OK','Cancel','Cancel');
 
 if strcmp(answer, 'OK')
     
-    % remove group
-    fds.fdata = fds.fdata(:,[1:groupIdx-1, groupIdx+1:end]);
-    
-    % need to remove children if item is a branch
-    % TODO
-    
     % set selected group to parent so tree stays open
-    % TODO
+    % TODO - tree does not use the data correctly
+    parent = fds.fdata{fds.fdataRows.treeParent, groupIdx};
+    [groupIdx] = kVIS_fdsGetGroupIDColumnIndex(fds, parent);
+    fds.fdata{fds.fdataRows.treeGroupExpanded, groupIdx} = true;
+    fds.fdata{fds.fdataRows.treeGroupSelected, groupIdx} = true;
     
+    % remove group(s)
+    fds.fdata = fds.fdata(:, rem);    
 else
     
     fds = -1;
@@ -59,3 +67,4 @@ end
 
 end
 
+%% setdiff()
