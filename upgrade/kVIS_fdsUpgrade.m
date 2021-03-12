@@ -34,9 +34,11 @@ while fds.fdsVersion <= currentVersion
     switch fds.fdsVersion
         case 2.0
             disp('kVIS_fdsUpgrade.m TODO: update to 2.0')
+            
             break;
         case 1.0
             fds = UpgradeInfoStructs(fds);
+            fds = kVIS_fdsUpgrade2V2_0(fds);
             break;
         case 0
             fds = kVIS_fdsUpgrade_V_0_V_1_0(fds);

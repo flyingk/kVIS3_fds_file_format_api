@@ -22,7 +22,7 @@ function [ fds ] = kVIS_fdsUpgrade_V_0_V_1_0(fdsOld)
     % Upgrade FDS from V 0 (produced by fds_upgrade_legacy) to V 1.0.
     % For KSID internal use only. Use fds_upgrade(fds) instead.
 
-    fds = kVIS_fdsInitNew();
+    fds = kVIS_fds1_0InitNew();
 
     timeGlobal = fdsOld.t(:);
 

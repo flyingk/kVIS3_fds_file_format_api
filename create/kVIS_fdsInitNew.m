@@ -38,7 +38,7 @@ fds.fdsVersion = 2.0;
 fds.created = datestr(now);
 
 
-fds.fdata = cell(12,1); % number of rows according to fdataRows
+fds.fdata = cell(11,1); % number of rows according to fdataRows
 
 fds.fdataRows = struct( ...
     'groupID'           , 1, ... unique group ID (unique, random string)
