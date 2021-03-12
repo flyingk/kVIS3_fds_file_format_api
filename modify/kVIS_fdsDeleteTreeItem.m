@@ -9,17 +9,17 @@
 % contributors
 %
 % Contact: kvis3@uav-flightresearch.com
-% 
+%
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation, either version 3 of the License, or
 % (at your option) any later version.
-% 
+%
 % This program is distributed in the hope that it will be useful,
 % but WITHOUT ANY WARRANTY; without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 % GNU General Public License for more details.
-% 
+%
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -39,6 +39,7 @@ function [fds] = kVIS_fdsDeleteTreeItem(fds, groupID)
 % find all descendants
 [childs, ~, idx] = kVIS_fdsFindTreeChildren(fds, groupID);
 
+% determine the fds columns to remain
 cols = size(fds.fdata,2);
 
 rem = setdiff(1:cols, [groupIdx, idx]);
@@ -51,16 +52,19 @@ if strcmp(answer, 'OK')
     % set selected group to parent so tree stays open
     % TODO - tree does not use the data correctly
     parent = fds.fdata{fds.fdataRows.treeParent, groupIdx};
-    [groupIdx] = kVIS_fdsGetGroupIDColumnIndex(fds, parent);
-    fds.fdata{fds.fdataRows.treeGroupExpanded, groupIdx} = true;
-    fds.fdata{fds.fdataRows.treeGroupSelected, groupIdx} = true;
+    % exclude root
+    if parent > 0
+        [groupIdx] = kVIS_fdsGetGroupIDColumnIndex(fds, parent);
+        fds.fdata{fds.fdataRows.treeGroupExpanded, groupIdx} = true;
+        fds.fdata{fds.fdataRows.treeGroupSelected, groupIdx} = true;
+    end
     
     % remove group(s)
-    fds.fdata = fds.fdata(:, rem);    
+    fds.fdata = fds.fdata(:, rem);
 else
     
     fds = -1;
-
+    
 end
 
 

@@ -64,7 +64,12 @@ fds2.fdata{fds2.fdataRows.treeParent, 1} = 0;
 % rest - fds 1.0 is always in order
 for I = 2:cols
     p = fds1.fdata{fds1.fdataRows.treeParent, I};
-    fds2.fdata{fds2.fdataRows.treeParent, I} = fds2.fdata{fds2.fdataRows.groupID, p};
+    if p == 0
+        % root level
+        fds2.fdata{fds2.fdataRows.treeParent, I} = 0;
+    else
+        fds2.fdata{fds2.fdataRows.treeParent, I} = fds2.fdata{fds2.fdataRows.groupID, p};
+    end
 end
 
 fds2 = kVIS_fdsUpdateAttributes(fds2);
