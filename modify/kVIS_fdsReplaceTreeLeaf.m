@@ -37,6 +37,7 @@ if index > 0
     fds.fdata{fds.fdataRows.varNamesDisp, index} = varsDisp;
     fds.fdata{fds.fdataRows.data, index}         = data;
     fds.fdata{fds.fdataRows.treeGroupSelected, index} = selected;
+    fds.fdata{fds.fdataRows.treeGroupExpanded, index} = false;
     
 else
     

@@ -67,7 +67,7 @@ elseif length(idx) > 1
             treePath = kVIS_fdsBuildTreePath(fds, groupID);
             
             % use / so parts of strings won't be found??
-            found(I) = contains(treePath, ID2);
+            found(I) = contains(treePath, ID2); %#ok<AGROW>
             
         end
         

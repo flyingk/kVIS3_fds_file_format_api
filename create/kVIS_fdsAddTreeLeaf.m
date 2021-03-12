@@ -53,6 +53,7 @@ if size(fds.fdata, 2) == 1 && isempty(fds.fdata{fds.fdataRows.groupLabel, 1}) % 
     fds.fdata{fds.fdataRows.data, 1}         = data;
     fds.fdata{fds.fdataRows.treeParent, 1}   = 0;
     fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
+    fds.fdata{fds.fdataRows.treeGroupExpanded, 1} = false;
     
 else % add fdata column and populate
     
@@ -67,6 +68,7 @@ else % add fdata column and populate
     fds.fdata{fds.fdataRows.data, end}         = data;
     fds.fdata{fds.fdataRows.treeParent, end}   = fds.fdata{fds.fdataRows.groupID, parent};
     fds.fdata{fds.fdataRows.treeGroupSelected, end} = selected;
+    fds.fdata{fds.fdataRows.treeGroupExpanded, end} = false;
     
 end
 
