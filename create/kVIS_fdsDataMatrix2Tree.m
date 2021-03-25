@@ -192,50 +192,65 @@ for k = 1:size(fds.fdata, 2)
     end
 end
 
-warndlg('datamatrix2tree: data copy missing')
-% %
-% % copy data into fdata array
-% %
-% for k = 2 : numel(dataNames) - skipLast % first entry is time vector, last entry is potentially empty
+
 %
-%     %updating waitbar every 10%
-%     hfrac = k/(numel(dataNames) - skipLast);
-%     if mod(hfrac,0.05)<0.001
-%         waitbar(hfrac, waitb)
-%     end
+% copy data into fdata array
 %
-%     Path = strsplit(dataNames{k}, delimiter);
-%     Path = strip(Path);
-%
-%     Name = Path{end};
-%     Path = Path(1:end-1);
-%
-%     if isempty(Path)
-%         Path = {'Unsorted'}; % put in default group
-%         continue;
-%     end
-%
-%     for P = 1 : numel(Path)
-%
-%         GroupName = Path{P};
-%
-%         findLabel = strcmp(fds.fdata(fds.fdataRows.groupLabel, :), GroupName);
-%
-% %         findParent = cell2mat(fds.fdata(fds.fdataRows.treeParent, :));
-% %
-% %         MatchingGroupIdx = findLabel & findParent;
-%
-%         MatchingGroupIdx = findLabel;
-%
-%         groupIdx = find(MatchingGroupIdx);
-%
-%         if P == numel(Path)
-%             [ fds ] = kVIS_fdsFillTreeLeafItemLocal(fds, groupIdx, Name, data(:,k));
-%         end
-%
-%     end
-%
-% end
+for k = 2 : numel(dataNames) - skipLast % first entry is time vector, last entry is potentially empty
+
+    %updating waitbar every 10%
+    hfrac = k/(numel(dataNames) - skipLast);
+    if mod(hfrac,0.05)<0.001
+        waitbar(hfrac, waitb)
+    end
+
+    Path = strsplit(dataNames{k}, delimiter);
+    Path = strip(Path);
+
+    Name = Path{end};
+    Path = Path(1:end-1);
+
+    if isempty(Path)
+        Path = {'Unsorted'}; % put in default group
+        continue;
+    end
+
+    for P = 1 : numel(Path)
+        % build path to current index
+        if P == 1
+            pathstr = [rootName '/' Path{1}];
+        else
+            pathstr = [pathstr '/' Path{P}];
+        end
+
+        % only interested in data leafs
+        if P == numel(Path)
+            
+            % current group name
+            GroupName = Path{P};
+            
+            % does current group name exist in tree where and how often?
+            [groupIdx] = kVIS_fdsGetGroupLabelColumnIndex(fds, GroupName);
+            
+            % go through all matches to find correct path
+            for nn = 1:length(groupIdx)
+                
+                treepath = kVIS_fdsBuildTreePath(fds, fds.fdata{fds.fdataRows.groupID, groupIdx(nn)});
+                
+                if strcmp(pathstr,treepath)
+                    % group matched -> add data here
+                    pathstr;
+                    treepath;
+                    [ fds ] = kVIS_fdsFillTreeLeafItemLocal(fds, groupIdx(nn), Name, data(:,k));
+                    break;
+                end
+            end
+          
+        end
+
+    end
+
+end
 
 fds = kVIS_fdsUpdateAttributes(fds);
 
