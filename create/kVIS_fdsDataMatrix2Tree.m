@@ -80,7 +80,6 @@ for k = 2 : numel(dataNames) - skipLast % first entry is time vector, last entry
     
     if isempty(Path)
         Path = {'Unsorted'}; % put in default group
-        continue;
     end
     
     % Find or create group
@@ -212,7 +211,6 @@ for k = 2 : numel(dataNames) - skipLast % first entry is time vector, last entry
 
     if isempty(Path)
         Path = {'Unsorted'}; % put in default group
-        continue;
     end
 
     for P = 1 : numel(Path)
