@@ -34,6 +34,7 @@
 %> @retval New node index
 %
 function [ fds, node ] = kVIS_fdsAddTreeBranch(fds, parent, name)
+disp('kVIS_fdsAddTreeBranch: not ready for fds2.0')
 %
 % Check if group exists
 %
