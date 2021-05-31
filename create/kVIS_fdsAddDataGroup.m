@@ -38,7 +38,7 @@
 %
 function fds = kVIS_fdsAddDataGroup(fds, parentNode, groupName, varNames, varUnits, varFrames, fdata)
 
-% check if node exists already
+% check if parent node exists already
 [~, nodeIndex] = kVIS_fdsGetGroup(fds, parentNode);
 
 if nodeIndex > 0
@@ -52,8 +52,8 @@ if nodeIndex > 0
         fds = kVIS_fdsAddTreeLeaf(fds, groupName, varNames, varNames, varUnits, varFrames, fdata, nodeIndex, false);
     end
 else
-    % add tree node
-    [fds, parentNode] = kVIS_fdsAddTreeBranch(fds, 0, parentNode);
+    % add tree node under root
+    [fds, parentNode] = kVIS_fdsAddTreeBranch(fds, 1, parentNode);
     fds = kVIS_fdsAddTreeLeaf(fds, groupName, varNames, varNames, varUnits, varFrames, fdata, parentNode, false);
 end
 
