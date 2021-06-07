@@ -26,10 +26,13 @@
 %
 %> @brief Create a new FDS structure as per specification V 2.0 for BSP 'generic'
 %>
+%> @param  Name for the tree root group
 %>
 %> @retval New fds structure
+%> @retval Group ID string of tree root
+%> @retval Tree root column number (usually 0)
 %
-function fds = kVIS_fdsInitNew()
+function [ fds, treeRootGroupID, treeRootColumn ] = kVIS_fdsInitNew(treeRootName)
 
 fds = struct;
 
@@ -37,8 +40,6 @@ fds.fdsVersion = 2.0;
 
 fds.created = datestr(now);
 
-
-fds.fdata = cell(11,1); % number of rows according to fdataRows
 
 fds.fdataRows = struct( ...
     'groupID'           , 1, ... unique group ID (unique, random string)
@@ -53,6 +54,21 @@ fds.fdataRows = struct( ...
     'treeGroupExpanded' ,10, ... group node expanded
     'treeGroupSelected' ,11  ... group node selected
 );
+
+% Create data array with root node
+fds.fdata = cell(11,1); % number of rows according to fdataRows
+
+treeRootGroupID = kVIS_fdsUniqueGroupID(fds);
+treeRootColumn  = 0;
+
+fds.fdata{fds.fdataRows.groupID, 1}    = treeRootGroupID;
+fds.fdata{fds.fdataRows.groupLabel, 1} = treeRootName;
+fds.fdata{fds.fdataRows.treeParent, 1} = treeRootColumn;
+fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
+fds.fdata{fds.fdataRows.treeGroupExpanded, 1} = false;
+
+
+
 
 fds.fdataAttributes = struct( ...
     'nFiles'    , '', ... number of data groups in fdata

@@ -27,7 +27,7 @@
 %> @brief Add new data to an existing tree leaf.
 %>
 %> @param fds structure
-%> @param Name of group to update
+%> @param Identifier of group to update
 %> @param Cell array of channel names
 %> @param Cell array of channel display names
 %> @param Cell array of channel units
@@ -36,13 +36,18 @@
 %>
 %> @retval Modified fds structure
 %
-function [ fds ] = kVIS_fdsAddTreeLeafItem(fds, groupName, var, varDisp, unit, frame, data)
+function [ fds ] = kVIS_fdsAddTreeLeafItem(fds, group, var, varDisp, unit, frame, data)
+%
+% get the column number of the tree parent
+%
+[~, groupColumn] = kVIS_fdsResolveGroupID(fds, group);
 
-fds.fdata{fds.fdataRows.varNames, groupName}     = [fds.fdata{fds.fdataRows.varNames, groupName}; {var}];
-fds.fdata{fds.fdataRows.varUnits, groupName}     = [fds.fdata{fds.fdataRows.varUnits, groupName}; unit];
-fds.fdata{fds.fdataRows.varFrames, groupName}    = [fds.fdata{fds.fdataRows.varFrames, groupName}; frame];
-fds.fdata{fds.fdataRows.varNamesDisp, groupName} = [fds.fdata{fds.fdataRows.varNamesDisp, groupName}; {varDisp}];
-fds.fdata{fds.fdataRows.data, groupName}         = [fds.fdata{fds.fdataRows.data, groupName}  data];
+
+fds.fdata{fds.fdataRows.varNames, groupColumn}     = [fds.fdata{fds.fdataRows.varNames, groupColumn}; {var}];
+fds.fdata{fds.fdataRows.varUnits, groupColumn}     = [fds.fdata{fds.fdataRows.varUnits, groupColumn}; unit];
+fds.fdata{fds.fdataRows.varFrames, groupColumn}    = [fds.fdata{fds.fdataRows.varFrames, groupColumn}; frame];
+fds.fdata{fds.fdataRows.varNamesDisp, groupColumn} = [fds.fdata{fds.fdataRows.varNamesDisp, groupColumn}; {varDisp}];
+fds.fdata{fds.fdataRows.data, groupColumn}         = [fds.fdata{fds.fdataRows.data, groupColumn}  data];
 
 end
 

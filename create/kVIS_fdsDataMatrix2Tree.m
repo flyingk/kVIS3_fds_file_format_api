@@ -42,17 +42,13 @@
 function [fds] = kVIS_fdsDataMatrix2Tree(bspName, rootName, delimiter, dataNames, data, skipLast)
 
 %
-% init new fds
+% init new fds, root node
 %
-fds = kVIS_fdsInitNew();
+[fds, ~, parentNode0] = kVIS_fdsInitNew(rootName);
 %
 % set bsp name
 %
 fds.BoardSupportPackage = bspName;
-%
-% add root node
-%
-[fds, parentNode0] = kVIS_fdsAddTreeBranch(fds, 0, rootName);
 
 
 waitb = waitbar(0,'Building FDS structure. Please wait...');

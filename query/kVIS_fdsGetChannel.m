@@ -27,14 +27,13 @@
 %> @brief Returns data content of a channel
 %>
 %> @param fds data structure
-%> @param Group name to search
+%> @param Group identifier to search
 %> @param Channel name to search
-%> @param Optional additional UNIQUE group identifier (if group name not unique)
 %>
 %> @retval Data content of group as array or -1 if not found
 %> @retval Meta data for channel or -1 if not found
 %
-function [signal, signalMeta] = kVIS_fdsGetChannel(fds, groupName, channel, varargin)
+function [signal, signalMeta] = kVIS_fdsGetChannel(fds, groupName, channel)
 
 % group name might exist -> channel could be duplicated as well -> need to
 % find the correct group
@@ -50,12 +49,9 @@ if ~isstruct(fds)
 end
 
 
-if nargin > 3
-    id2 = varargin{1};
-    [~, groupNo] = kVIS_fdsGetGroup(fds, groupName, id2);
-else
-    [~, groupNo] = kVIS_fdsGetGroup(fds, groupName);
-end
+% find the correct group
+[~, groupNo] = kVIS_fdsGetGroup(fds, groupName);
+
 
 
 if groupNo == -1

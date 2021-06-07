@@ -9,17 +9,17 @@
 % contributors
 %
 % Contact: kvis3@uav-flightresearch.com
-% 
+%
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation, either version 3 of the License, or
 % (at your option) any later version.
-% 
+%
 % This program is distributed in the hope that it will be useful,
 % but WITHOUT ANY WARRANTY; without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 % GNU General Public License for more details.
-% 
+%
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -33,38 +33,52 @@
 %> @retval Modified fds structure
 %> @retval New node index
 %
-function [ fds, node ] = kVIS_fdsAddTreeBranch(fds, parent, name)
+function [ fds, node ] = kVIS_fdsAddTreeBranch(fds, parentGroup, newBranchName)
+%
+% get the column number of the tree parent
+%
+treeParentID = kVIS_fdsResolveGroupID(fds, parentGroup);
+
 %
 % Check if group exists
 %
-[~, node] = kVIS_fdsGetGroup(fds, name);
+[~, node] = kVIS_fdsGetGroup(fds, newBranchName);
 
 %
 % create, if not
 %
 if node <= 0
     
-    % first entry - new root level node
-    if size(fds.fdata, 2) == 1  && isempty(fds.fdata{fds.fdataRows.groupLabel, 1})
-        
-        fds.fdata{fds.fdataRows.groupID, 1}    = kVIS_fdsUniqueGroupID();
-        fds.fdata{fds.fdataRows.groupLabel, 1} = name;
-        fds.fdata{fds.fdataRows.treeParent, 1} = 0;
-        fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
-        fds.fdata{fds.fdataRows.treeGroupExpanded, 1} = false;
-        
-    else % add fdata column and populate
-        
-        fds.fdata = [fds.fdata cell(size(fds.fdata,1),1)];
-        
-        fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID();
-        fds.fdata{fds.fdataRows.groupLabel, end} = name;
-        fds.fdata{fds.fdataRows.treeParent, end} = fds.fdata{fds.fdataRows.groupID, parent};
-        fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
-        fds.fdata{fds.fdataRows.treeGroupExpanded, end} = false;
-    end
+    fds.fdata = [fds.fdata, cell(size(fds.fdata,1),1)];
+    
+    fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID(fds);
+    fds.fdata{fds.fdataRows.groupLabel, end} = newBranchName;
+    fds.fdata{fds.fdataRows.treeParent, end} = treeParentID;
+    fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
+    fds.fdata{fds.fdataRows.treeGroupExpanded, end} = false;
+    
+    % number of this node
+    node = size(fds.fdata, 2);
+    
+else
+   
+    % handle duplicated groups
+    % need to ensure that full path is unique
+    warning('kVIS_fdsAddTreeBranch::Group name exists, path unique??')
+    
+    fds.fdata = [fds.fdata, cell(size(fds.fdata,1),1)];
+    
+    fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID(fds);
+    fds.fdata{fds.fdataRows.groupLabel, end} = newBranchName;
+    fds.fdata{fds.fdataRows.treeParent, end} = treeParentID;
+    fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
+    fds.fdata{fds.fdataRows.treeGroupExpanded, end} = false;
     
     % number of this node
     node = size(fds.fdata, 2);
     
 end
+    
+end
+
+
