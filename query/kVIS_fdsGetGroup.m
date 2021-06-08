@@ -35,25 +35,26 @@
 function [data, index] = kVIS_fdsGetGroup(fds, groupName)
 
 if ~isstruct(fds)
-    disp('No fds structure specified...')
+    warning('No fds structure specified...')
     data = -1;
     index = -1;
     return
 end
 
+try
+
 [ID, Col] = kVIS_fdsResolveGroupID(fds, groupName);
 
-
-if length(Col) == 1
-    
-    data = fds.fdata{fds.fdataRows.data, Col};
-    index = Col;
-    
-else
-
+catch ME
+    warning(ME.message)
     data = -1;
     index = -1;
-    
+    return
 end
+
+
+data = fds.fdata{fds.fdataRows.data, Col};
+index = Col;
+
 
 end

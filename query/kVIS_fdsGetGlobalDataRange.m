@@ -24,7 +24,7 @@ function [dataRange] = kVIS_fdsGetGlobalDataRange(hObject)
 %
 fds = kVIS_getCurrentFds(hObject);
 
-disp('ToDo kVIS_fdsGetGlobalDataRange: load only fds attributes')
+% disp('ToDo kVIS_fdsGetGlobalDataRange: load only fds attributes')
 
 dataRange = [min(fds.fdataAttributes.startTimes) max(fds.fdataAttributes.stopTimes)];
 

@@ -42,31 +42,49 @@ function [signal, signalMeta] = kVIS_fdsGetChannel(fds, groupName, channel)
 % as well
 
 if ~isstruct(fds)
-    disp('No fds structure specified...')
+    warning('No fds structure specified...')
     signal = -1;
     signalMeta = -1;
     return
 end
 
-
-% find the correct group
-[~, groupNo] = kVIS_fdsGetGroup(fds, groupName);
-
-
+%% find the correct group
+[groupData, groupNo] = kVIS_fdsGetGroup(fds, groupName);
 
 if groupNo == -1
-    disp('kVIS_fdsGetChannel: Invalid group name.')
+    warning('kVIS_fdsGetChannel: Invalid group name.')
     signal = -1;
     signalMeta = -1;
     return
 end
 
 
-% find channel name in group
-channel_idx = strcmp(fds.fdata{fds.fdataRows.varNames, groupNo}, channel);
-
-if ~any(channel_idx)
-    disp('kVIS_fdsGetChannel: Invalid channel name.')
+%% find channel name in group
+if isnumeric(channel)
+    % direct specification of channel index
+    if channel <= size(groupData,2)
+        channel_idx = channel;
+    else
+        warning(['kVIS_fdsGetChannel: Invalid channel specification: Channel no: ' num2str(channel)])
+        signal = -1;
+        signalMeta = -1;
+        return
+    end
+    
+elseif ischar(channel)
+    % search for channel name
+    channel_idx = strcmp(fds.fdata{fds.fdataRows.varNames, groupNo}, channel);
+    
+    if ~any(channel_idx)
+        warning('kVIS_fdsGetChannel: Invalid channel name.')
+        signal = -1;
+        signalMeta = -1;
+        return
+    end
+    
+else
+    
+    warning('kVIS_fdsGetChannel: Invalid channel specification.')
     signal = -1;
     signalMeta = -1;
     return
