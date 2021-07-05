@@ -66,7 +66,7 @@ T.Properties;
 Tr = table2array(T);
 
 if iscell(Tr)
-    errordlg('Faulty FTI file - contains non-numerical data. Abort')
+    errordlg('Faulty file - contains non-numerical data. Abort')
     fds = -1;
     return
 end
