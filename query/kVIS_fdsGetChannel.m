@@ -64,7 +64,7 @@ while (~channel_found)
     current_channel = fds.fdata{fds.fdataRows.varNames, groupNo}{channel_idx};
     
     % Check for match (case sensitive)
-    if (strcmp(strip(current_channel),channel))
+    if (strcmp(strip(current_channel), strip(channel)))
         % Channel has been found
         channel_found = 1;
         
