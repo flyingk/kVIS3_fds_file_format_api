@@ -105,4 +105,5 @@ signalMeta.dataSet   = [];
 signalMeta.dataGroup = fds.fdata{fds.fdataRows.groupLabel, groupNo};
 signalMeta.dataPath  = kVIS_fdsBuildTreePath(fds, fds.fdata{fds.fdataRows.groupID, groupNo});
 signalMeta.timeVec   = fds.fdata{fds.fdataRows.data, groupNo}(:, 1);
+signalMeta.sampleRate = fds.fdataAttributes.sampleRates(groupNo);
 end
