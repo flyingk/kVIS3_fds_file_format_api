@@ -46,7 +46,7 @@ try
 [ID, Col] = kVIS_fdsResolveGroupID(fds, groupName);
 
 catch ME
-    warning(ME.message)
+    disp(ME.message)
     data = -1;
     index = -1;
     return
