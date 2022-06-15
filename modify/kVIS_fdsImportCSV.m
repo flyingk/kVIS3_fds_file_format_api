@@ -77,16 +77,47 @@ varFrames = cell(size(varUnits));
 varFrames = cellfun(@(x) '', varFrames, 'UniformOutput', false);
 
 % select location in data tree
-answ = inputdlg({'New Tree branch','New Group name'},'Select import names',1,{'Imported','FTI Data'});
+% answ = inputdlg({'File Name','New Tree branch','New Group name'},'Select import names',1,{'CSV_Data','Imported','FTI Data'});
 
-if isempty(answ)
-    return
+%
+% get new name (valid matlab var name required)
+%
+newName = {''};
+
+while ~isvarname(newName{1})
+    
+    newName = inputdlg({'File Name','New Tree branch','New Group name'},'Select import names',1,{'CSV_Data','Imported','FTI Data'});
+    
+    % cancel
+    if isempty(newName)
+        return
+    end
+    
+    % check name
+    if ~isvarname(newName{1})
+        he = errordlg('Not a valid Matlab variable name...');
+        newName = {''};
+        uiwait(gcf, 2)
+        delete(he);
+    end
+    
+    % check duplication
+    str = sprintf('exist(''%s'', ''var'')', newName{1});
+    
+    if evalin('base',str)
+        he = errordlg('Name exists...');
+        newName = {''};
+        uiwait(gcf, 2)
+        delete(he);
+    end
+    
 end
+answ = newName;
 
 % add data to tree
-fds = kVIS_fdsAddDataGroup(fds, answ{1}, answ{2}, varNames, varUnits, varFrames, fdata);
+fds = kVIS_fdsAddDataGroup(fds, answ{2}, answ{3}, varNames, varUnits, varFrames, fdata);
 
 fds = kVIS_fdsUpdateAttributes(fds);
 
-kVIS_addDataSet(hObject, fds, 'CSV_Data')
+kVIS_addDataSet(hObject, fds, answ{1})
 end
