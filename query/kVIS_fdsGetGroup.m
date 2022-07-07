@@ -18,7 +18,7 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function [data, index] = kVIS_fdsGetGroup(fds, field_name)
+function [data, index, varNames] = kVIS_fdsGetGroup(fds, field_name)
 % Finds a match for the field name and gives you the output
 
 if ~nargin
@@ -47,6 +47,6 @@ end
 % Index found, get the data
 data = fds.fdata{fds.fdataRows.data,i};
 index = i;
-
+varNames = fds.fdata{fds.fdataRows.varNames,i};
 return
 end
