@@ -96,4 +96,5 @@ signalMeta.dispName  = fds.fdata{fds.fdataRows.varNamesDisp, groupNo}{channel_id
 signalMeta.dataSet   = 'unknown';
 signalMeta.dataGroup = fds.fdata{fds.fdataRows.groupLabel, groupNo};
 signalMeta.timeVec   = fds.fdata{fds.fdataRows.data, groupNo}(:, 1);
+signalMeta.sampleRate= fds.fdataAttributes.sampleRates(groupNo);
 end
