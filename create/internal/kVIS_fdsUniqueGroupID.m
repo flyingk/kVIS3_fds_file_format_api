@@ -34,6 +34,8 @@ function [ID] = kVIS_fdsUniqueGroupID(fds)
 % generate random string of 20 lower case letters
 % ID = char(randi([97 122],1,20));
 
+rng('shuffle');
+
 % generate random number with 12 digits
 num = randi([1e12, 10e12],1);
 

@@ -66,16 +66,13 @@ else
     % need to ensure that full path is unique
     warning('kVIS_fdsAddTreeBranch::Group name exists, path unique??')
     
-    fds.fdata = [fds.fdata, cell(size(fds.fdata,1),1)];
-    
-    fds.fdata{fds.fdataRows.groupID, end}    = kVIS_fdsUniqueGroupID(fds);
-    fds.fdata{fds.fdataRows.groupLabel, end} = newBranchName;
-    fds.fdata{fds.fdataRows.treeParent, end} = treeParentID;
-    fds.fdata{fds.fdataRows.treeGroupSelected, end} = false;
-    fds.fdata{fds.fdataRows.treeGroupExpanded, end} = false;
-    
-    % number of this node
-    node = size(fds.fdata, 2);
+%     fds.fdata = [fds.fdata, cell(size(fds.fdata,1),1)];
+%     
+%     fds.fdata{fds.fdataRows.groupID, node}    = kVIS_fdsUniqueGroupID(fds);
+%     fds.fdata{fds.fdataRows.groupLabel, node} = newBranchName;
+%     fds.fdata{fds.fdataRows.treeParent, node} = treeParentID;
+%     fds.fdata{fds.fdataRows.treeGroupSelected, node} = false;
+%     fds.fdata{fds.fdataRows.treeGroupExpanded, node} = false;
     
 end
     
