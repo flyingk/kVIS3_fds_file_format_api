@@ -33,7 +33,7 @@
 %> @retval fds.fdata column index of the group
 %
 
-function [data, index, varNames] = kVIS_fdsGetGroup(fds, field_name)
+function [data, index, varNames] = kVIS_fdsGetGroup(fds, groupName)
 % Finds a match for the field name and gives you the output
 
 if ~isstruct(fds)
