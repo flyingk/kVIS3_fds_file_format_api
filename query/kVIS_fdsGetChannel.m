@@ -37,7 +37,6 @@ function [signal, signalMeta] = kVIS_fdsGetChannel(fds, groupName, channel)
 
 % group name might exist -> channel could be duplicated as well -> need to
 % find the correct group
-
 % channel is unique in a group, so if group is unique, then channel will be
 % as well
 
@@ -89,7 +88,6 @@ else
     signalMeta = -1;
     return
 end
-
 %
 % signal data
 %
@@ -101,9 +99,10 @@ signalMeta.name      = fds.fdata{fds.fdataRows.varNames, groupNo}{channel_idx};
 signalMeta.unit      = fds.fdata{fds.fdataRows.varUnits, groupNo}{channel_idx};
 signalMeta.frame     = fds.fdata{fds.fdataRows.varFrames, groupNo}{channel_idx};
 signalMeta.dispName  = fds.fdata{fds.fdataRows.varNamesDisp, groupNo}{channel_idx};
-signalMeta.dataSet   = [];
+signalMeta.dataSet   = 'unknown';
 signalMeta.dataGroup = fds.fdata{fds.fdataRows.groupLabel, groupNo};
 signalMeta.dataPath  = kVIS_fdsBuildTreePath(fds, fds.fdata{fds.fdataRows.groupID, groupNo});
 signalMeta.timeVec   = fds.fdata{fds.fdataRows.data, groupNo}(:, 1);
 signalMeta.sampleRate = fds.fdataAttributes.sampleRates(groupNo);
+
 end

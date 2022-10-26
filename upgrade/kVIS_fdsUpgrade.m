@@ -91,17 +91,8 @@ if isfield(fds.aircraftData, 'sRef')
     fds.aircraftData = aircraftData;
     
     testInfo                           = fds.testInfo;
-    testInfo.airfieldElevation_UNIT_m  = fds.testInfo.airfieldElevation;
-    testInfo.windDir_UNIT_deg          = fds.testInfo.windDir;
-    testInfo.windSpeed_UNIT_m_d_s      = fds.testInfo.windSpeed;
-    testInfo.ambientPressure_UNIT_Pa   = fds.testInfo.ambientPressure;
-    testInfo.ambientTemperature_UNIT_C = fds.testInfo.ambientTemperature;
-    testInfo.gravity_UNIT_m_d_s2       = fds.testInfo.gravity;
-    testInfo.magRef_N_UNIT_Gauss       = fds.testInfo.magRef_N;
-    testInfo.magRef_E_UNIT_Gauss       = fds.testInfo.magRef_E;
-    testInfo.magRef_D_UNIT_Gauss       = fds.testInfo.magRef_D;
     
-    testInfo = rmfield(testInfo, {
+    old_test_info_fieldnames = {
         'airfieldElevation'
         'windDir'
         'windSpeed'
@@ -111,8 +102,28 @@ if isfield(fds.aircraftData, 'sRef')
         'magRef_N'
         'magRef_E'
         'magRef_D'
-        });
+        };
     
+    new_test_info_field_names = {
+        'airfieldElevation_UNIT_m'
+        'windDir_UNIT_deg'
+        'windSpeed_UNIT_m_d_s'
+        'ambientPressure_UNIT_Pa'
+        'ambientTemperature_UNIT_C'
+        'gravity_UNIT_m_d_s2'
+        'magRef_N_UNIT_Gauss'
+        'magRef_E_UNIT_Gauss'
+        'magRef_D_UNIT_Gauss'
+        };
+    
+    for i=1:numel(new_test_info_field_names)
+        if isfield(fds.testInfo,old_test_info_fieldnames{i})
+            testInfo.(new_test_info_field_names{i}) = fds.testInfo.(old_test_info_fieldnames{i});
+            testInfo = rmfield(testInfo, old_test_info_fieldnames{i});
+        else
+            testInfo.(new_test_info_field_names{i}) = nan;
+        end
+    end
     fds.testInfo = testInfo;
     
 else

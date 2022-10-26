@@ -32,7 +32,9 @@
 %> @retval Data content of group as array or -1 if not found
 %> @retval fds.fdata column index of the group
 %
-function [data, index] = kVIS_fdsGetGroup(fds, groupName)
+
+function [data, index, varNames] = kVIS_fdsGetGroup(fds, field_name)
+% Finds a match for the field name and gives you the output
 
 if ~isstruct(fds)
     warning('No fds structure specified...')
@@ -55,6 +57,6 @@ end
 
 data = fds.fdata{fds.fdataRows.data, Col};
 index = Col;
-
+varNames = fds.fdata{fds.fdataRows.varNames,Col};
 
 end
