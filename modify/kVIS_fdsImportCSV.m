@@ -56,28 +56,13 @@ T = readtable(InputFile);
 
 T.Properties;
 
-Tr = table2array(T);
+DataArray = table2array(T);
 
-if iscell(Tr)
+if iscell(DataArray)
     errordlg('Faulty FTI file - contains non-numerical data. Abort')
     fds = -1;
     return
 end
-
-
-% add data to fds
-fdata = Tr;
-
-varNames = ExportNames';
-
-varUnits = cell(size(varNames));
-varUnits = cellfun(@(x) '', varUnits, 'UniformOutput', false);
-
-varFrames = cell(size(varUnits));
-varFrames = cellfun(@(x) '', varFrames, 'UniformOutput', false);
-
-% select location in data tree
-% answ = inputdlg({'File Name','New Tree branch','New Group name'},'Select import names',1,{'CSV_Data','Imported','FTI Data'});
 
 %
 % get new name (valid matlab var name required)
@@ -86,7 +71,7 @@ newName = {''};
 
 while ~isvarname(newName{1})
     
-    newName = inputdlg({'File Name','New Tree branch','New Group name'},'Select import names',1,{'CSV_Data','Imported','FTI Data'});
+    newName = inputdlg({'File Name','Tree root label'},'Select import names',1,{'CSV_Data','CSV_data'});
     
     % cancel
     if isempty(newName)
@@ -114,10 +99,7 @@ while ~isvarname(newName{1})
 end
 answ = newName;
 
-% add data to tree
-fds = kVIS_fdsAddDataGroup(fds, answ{2}, answ{3}, varNames, varUnits, varFrames, fdata);
-
-fds = kVIS_fdsUpdateAttributes(fds);
+fds = kVIS_fdsDataMatrix2Tree('DemoBSP', answ{2}, '.', ExportNames, DataArray, false);
 
 kVIS_addDataSet(hObject, fds, answ{1})
 end
