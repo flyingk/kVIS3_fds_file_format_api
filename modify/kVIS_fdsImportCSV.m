@@ -35,7 +35,7 @@ function kVIS_fdsImportCSV(hObject, ~)
 % Import data from csv file 
 %
 
-fds = kVIS_fdsInitNew();
+fds = kVIS_fdsInitNew('Root');
 
 [file, pathname] = uigetfile('*.csv');
 
