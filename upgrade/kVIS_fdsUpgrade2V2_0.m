@@ -32,7 +32,7 @@
 %
 function fds2 = kVIS_fdsUpgrade2V2_0(fds1)
 
-fds2 = kVIS_fdsInitNew("Root");
+fds2 = kVIS_fdsInitNew("FDS_Root");
 
 % size of old array
 cols = fds1.fdataAttributes.nFiles;

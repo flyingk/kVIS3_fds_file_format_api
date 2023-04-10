@@ -79,8 +79,10 @@ fds.fdataAttributes = struct( ...
     'stopTimes'  , ''  ... stop time value for each group, relative to the `startTime` field in `testInfo`
 );
 
-
+% Add empty event list
 [fds.eventList, fds.eventTypes] = kVIS_fdsCreateEmptyEventList();
+% Add empty waypoint list
+[fds.waypointList ] = kVIS_fdsCreateEmptyWaypointList();
 
 fds.aircraftData = struct( ...
    'acIdentifier',   '', ... aircraft name/identifier string
