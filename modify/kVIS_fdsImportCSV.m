@@ -35,8 +35,6 @@ function kVIS_fdsImportCSV(hObject, ~)
 % Import data from csv file 
 %
 
-fds = kVIS_fdsInitNew('Root');
-
 [file, pathname] = uigetfile('*.csv');
 
 if file==0
@@ -71,7 +69,7 @@ newName = {''};
 
 while ~isvarname(newName{1})
     
-    newName = inputdlg({'File Name','Tree root label'},'Select import names',1,{'CSV_Data','CSV_data'});
+    newName = inputdlg({'FDS Workspace Name','Tree root label'},'Select import names',1,{'CSV_Data','CSV_data'});
     
     % cancel
     if isempty(newName)

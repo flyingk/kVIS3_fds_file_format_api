@@ -59,11 +59,11 @@ fds.fdataRows = struct( ...
 fds.fdata = cell(11,1); % number of rows according to fdataRows
 
 treeRootGroupID = kVIS_fdsUniqueGroupID(fds);
-treeRootColumn  = 0;
+treeRootColumn  = 1;
 
 fds.fdata{fds.fdataRows.groupID, 1}    = treeRootGroupID;
 fds.fdata{fds.fdataRows.groupLabel, 1} = treeRootName;
-fds.fdata{fds.fdataRows.treeParent, 1} = treeRootColumn;
+fds.fdata{fds.fdataRows.treeParent, 1} = 0;
 fds.fdata{fds.fdataRows.treeGroupSelected, 1} = false;
 fds.fdata{fds.fdataRows.treeGroupExpanded, 1} = false;
 
